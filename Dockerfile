@@ -45,18 +45,13 @@ RUN \
   sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' && \
   apt-get update && apt-get install -y code
 
-# Install Chrome
-RUN \
-  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -  && \
-  sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' && \
-  apt-get update && apt-get install -y google-chrome-stable
-
 # Add developer user
 RUN \
   useradd -ms /bin/bash developer && \
   echo "developer:developer" | chpasswd && adduser developer sudo
 
-USER developer 
+USER developer
+WORKDIR /home/developer  
 
 # Install Tomcat
 RUN \
@@ -74,7 +69,8 @@ USER root
 
 RUN \
   chmod 600 /home/developer/.vnc/passwd && \
-  chown developer:developer /home/developer/.vnc/passwd
+  chown developer:developer /home/developer/.vnc/passwd &&\
+  sed -i 's/BIG-REQUESTS/_IG-REQUESTS/' /usr/lib/x86_64-linux-gnu/libxcb.so.1
 
 USER developer
 

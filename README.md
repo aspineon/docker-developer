@@ -12,7 +12,19 @@ and then connect to:
 
 The VNC password is `password`.
 
+User: developer
+Password: developer
+
 Environment variables
 
 g - vnc geometry (default 1280x800)
+
+Installed software:
+-Postgres 9.6
+-Node.js
+-Git
+-Mavrn
+-Oracle Java JDK 8.x
+-IntelliJ Ultimate trial version
+-Visual Studio Code
 
