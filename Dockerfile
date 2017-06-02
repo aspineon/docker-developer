@@ -5,7 +5,8 @@ ENV USER root
 
 # Install tools
 RUN \
-  apt-get update && apt-get install -y sudo curl maven git postgresql-9.6 ubuntu-gnome-desktop
+  apt-get update && apt-get install -y mc curl maven git postgresql-9.6 && \
+  apt-get install -y ubuntu-gnome-desktop --no-install-recommends
 
 # Install Node.js
 RUN \
@@ -32,16 +33,22 @@ RUN \
   ln -s /opt/idea-IU* /opt/idea && \
   ln -s /opt/idea/bin/idea.sh /usr/bin/idea
 
-# Install Tomcat
+# Install Visual Studio Code
 RUN \
-  curl -fSL "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz" -o /tmp/tomcat.tar.gz && \
-  cd /opt/ && tar zxf /tmp/tomcat.tar.gz && rm /tmp/tomcat.tar.gz
+  curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
+  mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg && \
+  sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' && \
+  apt-get update && apt-get install -y code
+
+# Download Tomcat
+RUN \
+  curl -fSL "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz" -o /root/tomcat.tar.gz
 
 # Install Chrome
 RUN \
-  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-  dpkg -i ./google-chrome*.deb && \
-  apt-get install -f
+  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -  && \
+  sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' && \
+  apt-get update && apt-get install -y google-chrome-stable
 
 #Install VNC Server
 RUN \
@@ -55,6 +62,7 @@ ADD passwd /root/.vnc/passwd
 RUN \
   chmod 600 /root/.vnc/passwd
 
-CMD /usr/bin/vncserver :1 -geometry 1920×1080 -depth 32 && tail -f /root/.vnc/*:1.log
+CMD /usr/bin/vncserver :1 -geometry ${GEOMETRY:-1920×1080} -depth ${DEPTH:-32} && tail -f /root/.vnc/*:1.log
 
 EXPOSE 5901
+
