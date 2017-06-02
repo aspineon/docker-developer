@@ -48,7 +48,8 @@ WORKDIR /home/developer
 
 # Download Tomcat
 RUN \
-  curl -fSL "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz" -o /home/developer/tomcat.tar.gz
+  curl -fSL "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz" -o /home/developer/tomcat.tar.gz && \
+  cd /home/developer/ && tar zxf /home/developer/tomcat.tar.gz && rm /home/developer/tomcat.tar.gz
 
 #Setup VNC Server
 RUN \
