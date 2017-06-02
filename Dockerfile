@@ -58,8 +58,13 @@ RUN \
 ADD xstartup /home/developer/.vnc/xstartup
 ADD passwd /home/developer/.vnc/passwd
 
+USER root
+
 RUN \
-  chmod 600 /home/developer/.vnc/passwd
+  chmod 600 /home/developer/.vnc/passwd && \
+  chown developer:developer /home/developer/.vnc/passwd
+
+USER developer
 
 CMD /usr/bin/vncserver :1 -geometry ${g:-1280x800} -depth 24 && tail -f /home/developer/.vnc/*:1.log
 
