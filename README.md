@@ -15,5 +15,4 @@ The VNC password is `password`.
 Environment variables
 
 g - vnc geometry (default 1280x800)
-d - depth (default 24)
 
