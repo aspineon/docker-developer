@@ -5,7 +5,7 @@ ENV USER root
 
 # Install tools
 RUN \
-  apt-get update && apt-get install -y mc curl maven git postgresql-9.6 && \
+  apt-get update && apt-get install -y sudo mc curl maven git postgresql-9.6 && \
   apt-get install -y ubuntu-gnome-desktop
 
 # Install Node.js
@@ -33,22 +33,33 @@ RUN \
   ln -s /opt/idea-IU* /opt/idea && \
   ln -s /opt/idea/bin/idea.sh /usr/bin/idea
 
-# Download Tomcat
-RUN \
-  curl -fSL "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz" -o /root/tomcat.tar.gz
-
-#Install VNC Server
+# Install VNC Server
 RUN \
   apt-get update && apt-get install -y gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal && \
-  apt-get install -y tightvncserver && \
-  mkdir /root/.vnc
+  apt-get install -y tightvncserver
 
-ADD xstartup /root/.vnc/xstartup
-ADD passwd /root/.vnc/passwd
+# Add developer user
+RUN \
+  useradd -ms /bin/bash developer && \
+  echo "developer:developer" | chpasswd && adduser developer sudo
+
+USER developer
+WORKDIR /home/developer  
+
+# Download Tomcat
+RUN \
+  curl -fSL "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz" -o /home/developer/tomcat.tar.gz
+
+#Setup VNC Server
+RUN \
+  mkdir .vnc
+
+ADD xstartup /home/developer/.vnc/xstartup
+ADD passwd /home/developer/.vnc/passwd
 
 RUN \
-  chmod 600 /root/.vnc/passwd
+  chmod 600 /home/developer/.vnc/passwd
 
-CMD /usr/bin/vncserver :1 -geometry ${g:-1280x800} -depth 24 && tail -f /root/.vnc/*:1.log
+CMD /usr/bin/vncserver :1 -geometry ${g:-1280x800} -depth 24 && tail -f /home/developer/.vnc/*:1.log
 
 EXPOSE 5901
