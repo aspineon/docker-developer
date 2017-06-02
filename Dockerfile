@@ -6,7 +6,7 @@ ENV USER root
 # Install tools
 RUN \
   apt-get update && apt-get install -y mc curl maven git postgresql-9.6 && \
-  apt-get install -y ubuntu-gnome-desktop --no-install-recommends
+  apt-get install -y ubuntu-gnome-desktop
 
 # Install Node.js
 RUN \
@@ -62,7 +62,6 @@ ADD passwd /root/.vnc/passwd
 RUN \
   chmod 600 /root/.vnc/passwd
 
-CMD /usr/bin/vncserver :1 -geometry ${GEOMETRY:-1920×1080} -depth ${DEPTH:-32} && tail -f /root/.vnc/*:1.log
+CMD /usr/bin/vncserver :1 -geometry ${g:-1280x800} -depth ${d:-24} && tail -f /root/.vnc/*:1.log
 
 EXPOSE 5901
-
