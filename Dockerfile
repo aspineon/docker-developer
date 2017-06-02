@@ -6,7 +6,7 @@ ENV USER root
 # Install tools
 RUN \
   apt-get update && apt-get install -y sudo mc curl maven git postgresql-9.6 && \
-  apt-get install -y ubuntu-gnome-desktop
+  apt-get install -y lxde-core lxterminal
 
 # Install Node.js
 RUN \
@@ -44,6 +44,12 @@ RUN \
   mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg && \
   sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' && \
   apt-get update && apt-get install -y code
+
+# Install Chrome
+RUN \
+  wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -  && \
+  sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' && \
+  apt-get update && apt-get install -y google-chrome-stable
 
 # Add developer user
 RUN \
