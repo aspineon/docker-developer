@@ -4,7 +4,8 @@ Docker container for Ubuntu 16.04 including ubuntu-desktop, vncserver and dvelop
 
 # How to run
 
-`docker run --privileged -p 5901:5901 landrzejewski/trainings`
+`docker pull landrzejewski/developer`
+`docker run --privileged -v ~/share/:/home/developer/share/ -p 5901:5901 landrzejewski/developer`
 
 and then connect to:
 
@@ -22,8 +23,6 @@ Environment variables
 - g - vnc geometry (default 1280x800)
 
 Exposed ports: 8080-8100
-
-Volumes: /home/developer
 
 --privileged - fix for Chrome 
 
