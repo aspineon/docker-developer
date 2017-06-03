@@ -4,7 +4,6 @@ Docker container for Ubuntu 16.04 including ubuntu-desktop, vncserver and dvelop
 
 # How to run
 
-`docker pull landrzejewski/developer`
 `docker run --privileged -v ~/share/:/home/developer/share/ -p 5901:5901 landrzejewski/developer`
 
 and then connect to:
