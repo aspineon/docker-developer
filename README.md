@@ -4,7 +4,7 @@ Docker container for Ubuntu 16.04 including ubuntu-desktop, vncserver and dvelop
 
 # How to run
 
-`docker run --privileged -p 5901:5901 -v /local_path:/home/developer landrzejewski/trainings`
+`docker run --privileged -p 5901:5901 landrzejewski/trainings`
 
 and then connect to:
 
@@ -15,13 +15,15 @@ The VNC password is `dconDevE`.
 # Info
 
 - User: developer
-- Password: developer
+- Password: dconDevE
 
 Environment variables
 
 - g - vnc geometry (default 1280x800)
 
 Exposed ports: 8080-8100
+
+Volumes: /home/developer
 
 --privileged - fix for Chrome 
 

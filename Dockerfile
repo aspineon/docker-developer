@@ -6,7 +6,7 @@ ENV USER root
 # Install tools
 RUN \
   apt-get update && apt-get install -y sudo mc curl maven git postgresql-9.6 && \
-  apt-get install -y ubuntu-gnome-desktop xterm --no-install-recommends
+  apt-get install -y ubuntu-gnome-desktop xterm xfonts-base xfonts-100dpi xfonts-75dpi --no-install-recommends
 
 # Install Node.js
 RUN \
@@ -55,7 +55,7 @@ RUN \
 # Add developer user
 RUN \
   useradd -ms /bin/bash developer && \
-  echo "developer:developer" | chpasswd && adduser developer sudo
+  echo "developer:dconDevE" | chpasswd && adduser developer sudo
 
 USER developer
 WORKDIR /home/developer  
@@ -82,5 +82,7 @@ RUN \
 USER developer
 
 CMD /usr/bin/vncserver :1 -geometry ${g:-1920x1080} -depth 24 && tail -f /home/developer/.vnc/*:1.log
+
+VOLUME /home/developer
 
 EXPOSE 5901 8080-8100
