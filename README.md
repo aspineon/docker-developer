@@ -10,7 +10,7 @@ and then connect to:
 
 `vnc://<host>:5901` via VNC client.
 
-The VNC password is `JKLqwez`.
+The VNC password is `dconDevE`.
 
 # Info
 

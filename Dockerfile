@@ -6,7 +6,7 @@ ENV USER root
 # Install tools
 RUN \
   apt-get update && apt-get install -y sudo mc curl maven git postgresql-9.6 && \
-  apt-get install -y ubuntu-gnome-desktop xterm libgl-dev --no-install-recommends
+  apt-get install -y ubuntu-gnome-desktop xterm --no-install-recommends
 
 # Install Node.js
 RUN \
@@ -33,11 +33,6 @@ RUN \
   ln -s /opt/idea-IU* /opt/idea && \
   ln -s /opt/idea/bin/idea.sh /usr/bin/idea
 
-# Install VNC Server
-RUN \
-  apt-get update && apt-get install -y gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal && \
-  apt-get install -y tightvncserver
-
 # Install Visual Studio Code
 RUN \
   curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
@@ -52,6 +47,11 @@ RUN \
   apt-get update && apt-get install -y google-chrome-stable && \
   rm -rf /var/lib/apt/lists/*
 
+# Install VNC Server
+RUN \
+  apt-get update && apt-get install -y gnome-panel gnome-settings-daemon metacity nautilus gnome-terminal && \
+  apt-get install -y tightvncserver
+
 # Add developer user
 RUN \
   useradd -ms /bin/bash developer && \
@@ -60,12 +60,11 @@ RUN \
 USER developer
 WORKDIR /home/developer  
 
-# Install Tomcat
+# Download Tomcat
 RUN \
-  wget "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz" && \
-  tar zxf apache-tomcat-8.5.15.tar.gz && rm apache-tomcat-8.5.15.tar.gz
+  wget "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz"
 
-#Setup VNC Server
+# Setup VNC Server
 RUN \
   mkdir .vnc && \
   touch .Xresources
@@ -82,6 +81,6 @@ RUN \
 
 USER developer
 
-CMD /usr/bin/vncserver :1 -geometry ${g:-1920x1080} -depth 32 && tail -f /home/developer/.vnc/*:1.log
+CMD /usr/bin/vncserver :1 -geometry ${g:-1920x1080} -depth 24 && tail -f /home/developer/.vnc/*:1.log
 
 EXPOSE 5901 8080-8100
