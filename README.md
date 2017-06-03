@@ -1,4 +1,4 @@
-# Ubuntu Desktop Dockerfile
+# Ubuntu Desktop + Developer tools
 
 Docker container for Ubuntu 16.04 including ubuntu-desktop, vncserver and dveloper tools.
 
@@ -14,12 +14,12 @@ The VNC password is `JKLqwez`.
 
 # Info
 
-User: developer
-Password: developer
+- User: developer
+- Password: developer
 
 Environment variables
 
-g - vnc geometry (default 1280x800)
+- g - vnc geometry (default 1280x800)
 
 Exposed ports: 8080-8100
 
