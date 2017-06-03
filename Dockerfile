@@ -6,7 +6,7 @@ ENV USER root
 # Install tools
 RUN \
   apt-get update && apt-get install -y sudo mc curl maven git postgresql-9.6 && \
-  apt-get install -y lxde-core lxterminal
+  apt-get install -y ubuntu-gnome-desktop xterm libgl-dev --no-install-recommends
 
 # Install Node.js
 RUN \
@@ -49,7 +49,8 @@ RUN \
 RUN \
   wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -  && \
   sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' && \
-  apt-get update && apt-get install -y google-chrome-stable
+  apt-get update && apt-get install -y google-chrome-stable && \
+  rm -rf /var/lib/apt/lists/*
 
 # Add developer user
 RUN \
@@ -61,12 +62,13 @@ WORKDIR /home/developer
 
 # Install Tomcat
 RUN \
-  curl -fSL "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz" -o /home/developer/tomcat.tar.gz && \
-  cd /home/developer/ && tar zxf /home/developer/tomcat.tar.gz && rm /home/developer/tomcat.tar.gz
+  wget "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz" && \
+  tar zxf apache-tomcat-8.5.15.tar.gz && rm apache-tomcat-8.5.15.tar.gz
 
 #Setup VNC Server
 RUN \
-  mkdir .vnc
+  mkdir .vnc && \
+  touch .Xresources
 
 ADD xstartup /home/developer/.vnc/xstartup
 ADD passwd /home/developer/.vnc/passwd
@@ -80,6 +82,6 @@ RUN \
 
 USER developer
 
-CMD /usr/bin/vncserver :1 -geometry ${g:-1280x800} -depth 24 && tail -f /home/developer/.vnc/*:1.log
+CMD /usr/bin/vncserver :1 -geometry ${g:-1920x1080} -depth 32 && tail -f /home/developer/.vnc/*:1.log
 
-EXPOSE 5901
+EXPOSE 5901 8080-8100

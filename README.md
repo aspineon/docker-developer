@@ -1,16 +1,18 @@
 # Ubuntu Desktop Dockerfile
 
-Docker container for Ubuntu 16.04 including ubuntu-desktop and vncserver.
+Docker container for Ubuntu 16.04 including ubuntu-desktop, vncserver and dveloper tools.
 
 # How to run
 
-`docker run -p 5901:5901 landrzejewski/trainings`
+`docker run --privileged -p 5901:5901 -v /local_path:/home/developer landrzejewski/trainings`
 
 and then connect to:
 
 `vnc://<host>:5901` via VNC client.
 
-The VNC password is `password`.
+The VNC password is `JKLqwez`.
+
+# Info
 
 User: developer
 Password: developer
@@ -19,12 +21,18 @@ Environment variables
 
 g - vnc geometry (default 1280x800)
 
-Installed software:
-- Postgres 9.6
+Exposed ports: 8080-8100
+
+--privileged - fix for Chrome 
+
+# Installed software:
+
+- Postgres
 - Node.js
 - Git
 - Maven
-- Oracle Java JDK 8.x
+- Oracle Java JDK
 - IntelliJ Ultimate trial version
 - Visual Studio Code
-
+- Chrome
+- Tomcat
