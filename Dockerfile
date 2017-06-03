@@ -32,12 +32,7 @@ RUN \
   cd /opt/ && tar zxf /tmp/idea.tar.gz && rm /tmp/idea.tar.gz && \
   ln -s /opt/idea-IU* /opt/idea && \
   ln -s /opt/idea/bin/idea.sh /usr/bin/idea
-
-# use .IntelliJIdea directory instead of .IntelliJIdeaXXXX.X
-RUN \
-  sed -i 's|^# idea.config.path=${user.home}/share/.IntelliJIdea/config|idea.config.path=${user.home}/share/.IntelliJIdea/config|' /opt/idea/bin/idea.properties && \
-  sed -i 's|^# idea.system.path=${user.home}/share/.IntelliJIdea/system|idea.system.path=${user.home}/share/.IntelliJIdea/system|' /opt/idea/bin/idea.properties
-
+  
 # Install Visual Studio Code
 RUN \
   curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
