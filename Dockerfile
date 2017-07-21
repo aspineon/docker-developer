@@ -28,7 +28,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
 # Install Idea IntelliJ
 RUN \
-  curl -fSL "https://download.jetbrains.com/idea/ideaIU-2017.1.3.tar.gz" -o /tmp/idea.tar.gz && \
+  curl -fSL "https://download.jetbrains.com/idea/ideaIU-2017.2.tar.gz" -o /tmp/idea.tar.gz && \
   cd /opt/ && tar zxf /tmp/idea.tar.gz && rm /tmp/idea.tar.gz && \
   ln -s /opt/idea-IU* /opt/idea && \
   ln -s /opt/idea/bin/idea.sh /usr/bin/idea
@@ -62,7 +62,7 @@ WORKDIR /home/developer
 
 # Download Tomcat
 RUN \
-  wget "http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.5.15/bin/apache-tomcat-8.5.15.tar.gz"
+  wget "http://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.16/bin/apache-tomcat-8.5.16.tar.gz"
 
 # Setup VNC Server
 RUN \
